@@ -1,0 +1,18 @@
+// scripts/deploy.js
+async function main() {
+  const [deployer] = await ethers.getSigners();
+  console.log("Deploying with", deployer.address);
+
+  const ExampleToken = await ethers.getContractFactory("ExampleToken");
+  // Example: name, symbol, initial supply (1 million tokens with 18 decimals)
+  const initialSupply = ethers.parseUnits("1000000", 18); // Hardhat / ethers v6 style
+  const token = await ExampleToken.deploy("Example Token", "EXM", initialSupply);
+  await token.waitForDeployment();
+
+  console.log("Token deployed to:", token.target);
+}
+
+main().catch((error) => {
+  console.error(error);
+  process.exitCode = 1;
+});
